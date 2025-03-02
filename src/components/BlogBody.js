@@ -10,6 +10,7 @@ function BlogBody() {
         console.log("Current title:",title);
         setTitle(event.target.value);
     }
+    const currentDateTime=new Date().toLocaleString();
     function handlePost() {
         if(title===''){
             alert("Please enter a title");
@@ -27,10 +28,17 @@ function BlogBody() {
     function handleBody(event) {
         setBody(event.target.value);
     }
+    function handleDeletePost(indexToRemove) {
+        const confirmed=window.confirm("Are you sure you want to delete this post");
+        if(!confirmed) return;
+        // Approach: Filter out the post at the given index
+        const updatedPosts=posts.filter((_, index)=> index!== indexToRemove);
+        setPosts(updatedPosts); 
+    }
     return (
         <main>
             <h2>Create a New Blog Post</h2>
-            <p>Begin with the history of the post</p>
+            <p>Begin with the history of karate</p>
             <form>
                 <label>
                     Title:
@@ -65,6 +73,8 @@ function BlogBody() {
                 <div key={index}>
                     <h4>{post.title}</h4>
                     <p>{post.body}</p>
+                    <p>Blog posted at{currentDateTime}</p>
+                    <button onClick={()=>handleDeletePost(index)}>Delete</button>
                 </div>
             ))}
         </main>
